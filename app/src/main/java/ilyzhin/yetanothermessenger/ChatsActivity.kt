@@ -1,11 +1,10 @@
 package ilyzhin.yetanothermessenger
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import ilyzhin.yetanothermessenger.mock.MockChatsProvider
 import kotlinx.android.synthetic.main.activity_chats.*
-import java.util.*
 
 class ChatsActivity : AppCompatActivity() {
 

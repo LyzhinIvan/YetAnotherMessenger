@@ -1,6 +1,7 @@
 package ilyzhin.yetanothermessenger
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,12 @@ class ChatAdapter(val chatsProvider : IChatsProvider, val context : Context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        return ChatViewHolder(LayoutInflater.from(context).inflate(R.layout.chat_list_item, parent, false))
+        val view = LayoutInflater.from(context).inflate(R.layout.chat_list_item, parent, false)
+        view.setOnClickListener {
+            val intent = Intent(context, MessagesActivity::class.java)
+            context.startActivity(intent)
+        }
+        return ChatViewHolder(view)
     }
 
     class ChatViewHolder (view : View) : RecyclerView.ViewHolder(view) {
