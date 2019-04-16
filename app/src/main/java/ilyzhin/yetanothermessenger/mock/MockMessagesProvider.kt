@@ -27,4 +27,8 @@ class MockMessagesProvider : IMessagesProvider {
     override fun getMessage(index: Int): Message {
         return messages[index]
     }
+
+    override fun addMessage(message: Message) {
+        messages.add(message)
+    }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">YetAnotherMessenger</string>
+    <string name="message_input_hint">What would you like to say?</string>
 </resources>
