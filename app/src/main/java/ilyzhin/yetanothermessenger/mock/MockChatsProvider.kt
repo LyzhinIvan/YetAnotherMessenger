@@ -4,9 +4,9 @@ import ilyzhin.yetanothermessenger.Chat
 import ilyzhin.yetanothermessenger.IChatsProvider
 
 class MockChatsProvider : IChatsProvider {
-    val chats = ArrayList<Chat>()
+    private val chats = ArrayList<Chat>()
 
-    fun MockChatsProvider() {
+    init {
         chats.add(Chat("University chat 1"))
         chats.add(Chat("University chat 2"))
         chats.add(Chat("University chat 3"))
