@@ -36,7 +36,7 @@ class MessagesActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun sendMessage(text: String) {
-        messagesProvider.addMessage(Message(text))
+        messagesProvider.addMessage(Message(User.SELF!!, text))
         messageAdapter.notifyItemInserted(messagesProvider.getMessagesCount() - 1);
     }
 }

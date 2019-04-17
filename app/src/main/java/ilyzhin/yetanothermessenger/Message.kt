@@ -1,4 +1,4 @@
 package ilyzhin.yetanothermessenger
 
-class Message(val text : String) {
+class Message(val from : User, val text : String) {
 }
