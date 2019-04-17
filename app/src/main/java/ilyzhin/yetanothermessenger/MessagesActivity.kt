@@ -38,5 +38,6 @@ class MessagesActivity : AppCompatActivity(), View.OnClickListener {
     private fun sendMessage(text: String) {
         messagesProvider.addMessage(Message(User.SELF!!, text))
         messageAdapter.notifyItemInserted(messagesProvider.getMessagesCount() - 1);
+        rvMessages.scrollToPosition(messagesProvider.getMessagesCount() - 1)
     }
 }
