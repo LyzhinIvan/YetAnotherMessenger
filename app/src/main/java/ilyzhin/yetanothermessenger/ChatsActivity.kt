@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
@@ -21,6 +23,8 @@ class ChatsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chats)
 
         mAuth = FirebaseAuth.getInstance()
+
+        btnSignIn.setOnClickListener { signIn() }
     }
 
     override fun onStart() {
@@ -29,7 +33,6 @@ class ChatsActivity : AppCompatActivity() {
         if (mAuth.currentUser == null) {
             rvChats.visibility = View.GONE
             btnSignIn.visibility = View.VISIBLE
-            btnSignIn.setOnClickListener { signIn() }
         } else {
             btnSignIn.visibility = View.GONE
             loadChats()
@@ -69,6 +72,23 @@ class ChatsActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, response!!.error.toString(), Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.logoutItem-> {
+                mAuth.signOut()
+                rvChats.visibility = View.GONE
+                btnSignIn.visibility = View.VISIBLE
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
