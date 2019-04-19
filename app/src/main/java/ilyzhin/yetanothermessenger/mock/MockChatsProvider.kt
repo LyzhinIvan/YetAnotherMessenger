@@ -1,9 +1,9 @@
 package ilyzhin.yetanothermessenger.mock
 
+import ilyzhin.yetanothermessenger.AbstractChatsProvider
 import ilyzhin.yetanothermessenger.Chat
-import ilyzhin.yetanothermessenger.IChatsProvider
 
-class MockChatsProvider : IChatsProvider {
+class MockChatsProvider : AbstractChatsProvider() {
     private val chats = ArrayList<Chat>()
 
     init {

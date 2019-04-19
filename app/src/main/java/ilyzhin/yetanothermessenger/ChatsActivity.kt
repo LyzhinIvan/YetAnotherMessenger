@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import ilyzhin.yetanothermessenger.mock.MockChatsProvider
 import kotlinx.android.synthetic.main.activity_chats.*
 
 class ChatsActivity : AppCompatActivity() {
@@ -53,9 +52,11 @@ class ChatsActivity : AppCompatActivity() {
 
     private fun loadChats() {
         mAuth.currentUser?.let {
-            val chatsProvider = MockChatsProvider()
+            val chatsProvider = FirestoreChatsProvider()
             rvChats.layoutManager = LinearLayoutManager(this)
-            rvChats.adapter = ChatAdapter(chatsProvider, this)
+            val adapter = ChatAdapter(chatsProvider, this)
+            rvChats.adapter = adapter
+            chatsProvider.sync { adapter.notifyDataSetChanged() }
         }
     }
 
