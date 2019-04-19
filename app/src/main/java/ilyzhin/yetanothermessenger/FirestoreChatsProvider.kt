@@ -20,7 +20,7 @@ class FirestoreChatsProvider : AbstractChatsProvider() {
                         for (chatRef in chatsRefs) {
                             chatRef.get()
                                 .addOnSuccessListener { result ->
-                                    chats.add(Chat(result.data!!["title"].toString()))
+                                    chats.add(Chat(result.id, result.data!!["title"].toString()))
                                     callback()
                                 }
                                 .addOnFailureListener { exception ->
@@ -44,7 +44,6 @@ class FirestoreChatsProvider : AbstractChatsProvider() {
     }
 
     override fun getChatsCount(): Int {
-        Log.d("MYAPP", "chats size " + chats.size)
         return chats.size;
     }
 }

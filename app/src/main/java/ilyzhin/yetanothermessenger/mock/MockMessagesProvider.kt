@@ -14,17 +14,21 @@ class MockMessagesProvider : IMessagesProvider {
             User.authenticate()
         }
         val user = User.SELF!!
-        val friend = User(UUID.randomUUID(), "friend")
-        messages.add(Message(user, "hello"))
-        messages.add(Message(user,"how are you"))
-        messages.add(Message(friend,"fine"))
-        messages.add(Message(friend,"thank you"))
-        messages.add(Message(friend,"and you?"))
-        messages.add(Message(user,"good"))
-        messages.add(Message(user,"bye"))
-        messages.add(Message(friend,"good bye"))
-        messages.add(Message(user,"see you later"))
-        messages.add(Message(friend, "good luck"))
+        val friend = User(UUID.randomUUID().toString(), "friend")
+        messages.add(Message(UUID.randomUUID().toString(), user, "hello"))
+        messages.add(Message(UUID.randomUUID().toString(), user,"how are you"))
+        messages.add(Message(UUID.randomUUID().toString(), friend,"fine"))
+        messages.add(Message(UUID.randomUUID().toString(), friend,"thank you"))
+        messages.add(Message(UUID.randomUUID().toString(), friend,"and you?"))
+        messages.add(Message(UUID.randomUUID().toString(), user,"good"))
+        messages.add(Message(UUID.randomUUID().toString(), user,"bye"))
+        messages.add(Message(UUID.randomUUID().toString(), friend,"good bye"))
+        messages.add(Message(UUID.randomUUID().toString(), user,"see you later"))
+        messages.add(Message(UUID.randomUUID().toString(), friend, "good luck"))
+
+    }
+
+    override fun sync(callback: () -> Unit) {
 
     }
 

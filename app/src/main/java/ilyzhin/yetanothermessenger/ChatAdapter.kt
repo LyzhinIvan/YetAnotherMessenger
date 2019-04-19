@@ -19,14 +19,15 @@ class ChatAdapter(val chatsProvider : IChatsProvider, val context : Context)
         val chat = chatsProvider.getChat(position)
         viewHolder.tvChatName.text = chat.chatName
         viewHolder.tvUnreadMessagesCount.text = chat.getUnreadMessagesCount().toString()
+        viewHolder.itemView.setOnClickListener {
+            val intent = Intent(context, MessagesActivity::class.java)
+            intent.putExtra("chatId", chat.id)
+            context.startActivity(intent)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.chat_list_item, parent, false)
-        view.setOnClickListener {
-            val intent = Intent(context, MessagesActivity::class.java)
-            context.startActivity(intent)
-        }
         return ChatViewHolder(view)
     }
 

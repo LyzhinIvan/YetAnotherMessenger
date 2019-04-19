@@ -33,6 +33,7 @@ class ChatsActivity : AppCompatActivity() {
             rvChats.visibility = View.GONE
             btnSignIn.visibility = View.VISIBLE
         } else {
+            User.SELF = User(mAuth.currentUser!!.uid, mAuth.currentUser!!.displayName!!)
             btnSignIn.visibility = View.GONE
             loadChats()
             rvChats.visibility = View.VISIBLE
@@ -67,6 +68,7 @@ class ChatsActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
 
             if (resultCode == Activity.RESULT_OK) {
+                User.SELF = User(mAuth.currentUser!!.uid, mAuth.currentUser!!.displayName!!)
                 btnSignIn.visibility = View.GONE
                 loadChats()
                 rvChats.visibility = View.VISIBLE
