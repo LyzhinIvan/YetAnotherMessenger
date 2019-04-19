@@ -10,9 +10,6 @@ class MockMessagesProvider : IMessagesProvider {
     val messages = ArrayList<Message>()
 
     init {
-        if (User.SELF == null) {
-            User.authenticate()
-        }
         val user = User.SELF!!
         val friend = User(UUID.randomUUID().toString(), "friend")
         messages.add(Message(UUID.randomUUID().toString(), user, "hello"))

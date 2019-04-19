@@ -1,18 +1,27 @@
 package ilyzhin.yetanothermessenger
 
-import java.util.*
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 
 class User(val id : String, val name : String) {
     companion object {
         var SELF : User? = null
 
-        fun authenticate() {
-            SELF = User(UUID.randomUUID().toString(), "Test User")
-        }
-
         fun getById(id : String) : User {
             return if (SELF?.id == id) SELF!! else User(id, "name")
         }
+    }
+
+    lateinit var ref : DocumentReference
+
+    fun sync() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                ref = it.reference
+            }
     }
 
 

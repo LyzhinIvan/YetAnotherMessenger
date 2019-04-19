@@ -34,6 +34,7 @@ class ChatsActivity : AppCompatActivity() {
             btnSignIn.visibility = View.VISIBLE
         } else {
             User.SELF = User(mAuth.currentUser!!.uid, mAuth.currentUser!!.displayName!!)
+            User.SELF!!.sync()
             btnSignIn.visibility = View.GONE
             loadChats()
             rvChats.visibility = View.VISIBLE
@@ -69,6 +70,7 @@ class ChatsActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 User.SELF = User(mAuth.currentUser!!.uid, mAuth.currentUser!!.displayName!!)
+                User.SELF!!.sync()
                 btnSignIn.visibility = View.GONE
                 loadChats()
                 rvChats.visibility = View.VISIBLE
