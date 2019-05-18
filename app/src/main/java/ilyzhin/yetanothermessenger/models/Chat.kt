@@ -1,3 +1,3 @@
 package ilyzhin.yetanothermessenger.models
 
-class Chat(var title: String)
+data class Chat(var id : String, var title: String)

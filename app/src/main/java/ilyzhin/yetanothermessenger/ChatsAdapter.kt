@@ -1,10 +1,13 @@
 package ilyzhin.yetanothermessenger
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ilyzhin.yetanothermessenger.models.Chat
 import kotlinx.android.synthetic.main.chat_list_item.view.*
@@ -29,6 +32,11 @@ class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.Ch
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
         holder.tvChatName.text = chat.title
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, MessagesActivity::class.java)
+            intent.putExtra(Constants.CHAT_ID, chat.id)
+            startActivity(context, intent, Bundle.EMPTY)
+        }
     }
 
     inner class ChatViewHolder(view : View) : RecyclerView.ViewHolder(view){

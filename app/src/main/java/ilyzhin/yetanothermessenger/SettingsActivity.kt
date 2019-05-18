@@ -1,5 +1,6 @@
 package ilyzhin.yetanothermessenger
 
+import Constants.LOG_TAG
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -20,7 +21,6 @@ import java.util.*
 class SettingsActivity : AppCompatActivity() {
 
     companion object {
-        private val TAG = "YAM_LOG"
         private const val RC_SELECT_IMAGE = 3
     }
 
@@ -74,14 +74,14 @@ class SettingsActivity : AppCompatActivity() {
                         Toast.makeText(this, "Photo saved!", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener {
-                        Log.d(TAG, it.toString())
+                        Log.d(LOG_TAG, it.toString())
                     }
                 FirebaseFirestore.getInstance()
                     .collection("users")
                     .document(currentUser.uid)
                     .update(mapOf("photoId" to photoId))
                     .addOnFailureListener {
-                        Log.d(TAG, it.toString())
+                        Log.d(LOG_TAG, it.toString())
                     }
             }
         }

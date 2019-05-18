@@ -85,7 +85,7 @@ class ChatsActivity : AppCompatActivity() {
                             chatRef.get().addOnSuccessListener {
                                 Log.d("MYAPP", it.data.toString())
                                 val title : String = it.data!!["title"] as String
-                                chats.add(Chat(title))
+                                chats.add(Chat(it.id, title))
                                 adapter.notifyItemInserted(chats.size - 1)
                             }
                         }

@@ -24,10 +24,10 @@
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibSendMessage"/>
+            app:layout_constraintEnd_toStartOf="@+id/btnSendMessage"/>
 
     <ImageButton
-            android:id="@+id/ibSendMessage"
+            android:id="@+id/btnSendMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_media_play"

@@ -1,4 +1,4 @@
 package ilyzhin.yetanothermessenger.models
 
 
-class User(var name: String)
+data class User(var name: String)
