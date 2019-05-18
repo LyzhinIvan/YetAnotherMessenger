@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">YetAnotherMessenger</string>
     <string name="message_input_hint">What would you like to say?</string>
+    <string name="hint_chat_title">Chat Title</string>
+    <string name="button_create_chat">Create</string>
+    <string name="empty_not_created">Chat not created because title is empty.</string>
 </resources>
