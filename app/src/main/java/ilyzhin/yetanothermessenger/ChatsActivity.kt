@@ -70,11 +70,12 @@ class ChatsActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { userDoc ->
                 if (!userDoc.exists()) {
-                    val user = User(currentUser.displayName!!)
                     FirebaseFirestore.getInstance()
                         .collection("users")
                         .document(currentUser.uid)
-                        .set(user)
+                        .set(mapOf(
+                            "name" to currentUser.displayName,
+                            "chats" to emptyArray<DocumentReference>()))
                     adapter.setChats(emptyList())
                 } else {
                     val chats = arrayListOf<Chat>()
@@ -93,6 +94,7 @@ class ChatsActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed loading chats", Toast.LENGTH_SHORT).show()
+                // TODO: check connection
             }
     }
 
