@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.iid.FirebaseInstanceId
 import org.jetbrains.anko.startActivity
 
 class SignInActivity : AppCompatActivity() {
@@ -26,6 +27,10 @@ class SignInActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
+                FirebaseInstanceId.getInstance().instanceId
+                    .addOnCompleteListener{task ->
+                        YamMessagingService.addToken(task.result?.token)
+                    }
                 startActivity<ChatsActivity>()
             } else {
                 Toast.makeText(this, "Auth failed", Toast.LENGTH_SHORT).show()
