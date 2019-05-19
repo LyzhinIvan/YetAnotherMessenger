@@ -1,17 +1,14 @@
 package ilyzhin.yetanothermessenger
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import ilyzhin.yetanothermessenger.models.Chat
 import ilyzhin.yetanothermessenger.models.User
@@ -69,32 +66,20 @@ class ChatsActivity : AppCompatActivity() {
             .document(currentUser.uid)
             .get()
             .addOnSuccessListener { userDoc ->
-                if (!userDoc.exists()) {
-                    FirebaseFirestore.getInstance()
-                        .collection("users")
-                        .document(currentUser.uid)
-                        .set(mapOf(
-                            "name" to currentUser.displayName,
-                            "chats" to emptyArray<DocumentReference>()))
-                    adapter.setChats(emptyList())
-                } else {
-                    val chats = arrayListOf<Chat>()
-                    adapter.setChats(chats)
-                    (userDoc.get("chats") as List<DocumentReference>).let { chatsRefs ->
-                        for (chatRef in chatsRefs) {
-                            chatRef.get().addOnSuccessListener {
-                                Log.d("MYAPP", it.data.toString())
-                                val title : String = it.data!!["title"] as String
-                                chats.add(Chat(it.id, title))
-                                adapter.notifyItemInserted(chats.size - 1)
-                            }
+                val user = userDoc.toObject(User::class.java)!!
+                val chats = mutableListOf<Chat>()
+                adapter.setChats(chats)
+                user.chats.forEach {chatId ->
+                    FirebaseFirestore.getInstance().collection("chats").document(chatId).get()
+                        .addOnSuccessListener {
+                            Log.d("MYAPP", it.data.toString())
+                            chats.add(it.toObject(Chat::class.java)!!.withId(it.id))
+                            adapter.notifyItemInserted(chats.size - 1)
                         }
-                    }
                 }
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed loading chats", Toast.LENGTH_SHORT).show()
-                // TODO: check connection
             }
     }
 

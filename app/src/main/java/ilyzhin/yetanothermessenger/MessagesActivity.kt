@@ -34,11 +34,7 @@ class MessagesActivity : AppCompatActivity() {
             val msgText = etMessageInput.text
             if (!msgText.isBlank()) {
                 messagesRef.add(
-                    mapOf(
-                        "from" to currentUserId,
-                        "text" to msgText.toString(),
-                        "timestamp" to Timestamp.now()
-                    )
+                    Message(currentUserId, msgText.toString(), Timestamp.now())
                 )
                 msgText.clear()
             }
@@ -63,12 +59,7 @@ class MessagesActivity : AppCompatActivity() {
 
                 val messages = mutableListOf<Message>()
                 snapshot!!.documents.forEach{doc ->
-                    val message = Message(
-                        doc.id,
-                        doc.getString("from")!!,
-                        doc.getString("text")!!,
-                        doc.getTimestamp("timestamp")!!
-                    )
+                    val message : Message = doc.toObject(Message::class.java)!!.withId(doc.id)
                     messages.add(message)
                 }
                 adapter.setMessages(messages)

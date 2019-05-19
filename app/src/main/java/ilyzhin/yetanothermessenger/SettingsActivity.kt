@@ -14,6 +14,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import ilyzhin.yetanothermessenger.glide.GlideApp
+import ilyzhin.yetanothermessenger.models.User
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -24,26 +25,26 @@ class SettingsActivity : AppCompatActivity() {
         private const val RC_SELECT_IMAGE = 3
     }
 
-    private var currentUser = FirebaseAuth.getInstance().currentUser!!
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        etEmail.setText(currentUser.email)
-        etDisplayName.setText(currentUser.displayName)
+        val authUser = FirebaseAuth.getInstance().currentUser!!
+        etEmail.setText(authUser.email)
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(authUser.uid)
+            .get()
+            .addOnSuccessListener {
+                user = it.toObject(User::class.java)!!.withId(it.id)
+                etDisplayName.setText(user.name)
+                val ref = FirebaseStorage.getInstance()
+                    .getReference("avatars/${user.photoId}")
 
-        FirebaseFirestore.getInstance().collection("users").document(currentUser.uid).get()
-            .addOnSuccessListener { user->
-                user.data!!["photoId"].toString().let { photoId->
-                    val ref = FirebaseStorage.getInstance()
-                        .getReference("avatars/$photoId")
-
-                    GlideApp.with(this).load(ref).placeholder(R.drawable.default_avatar).into(ivAvatar)
-                }
+                GlideApp.with(this).load(ref).placeholder(R.drawable.default_avatar).into(ivAvatar)
             }
-
-
 
         ivAvatar.setOnClickListener {
             val intent = Intent().apply {
@@ -76,9 +77,10 @@ class SettingsActivity : AppCompatActivity() {
                     .addOnFailureListener {
                         Log.d(LOG_TAG, it.toString())
                     }
+
                 FirebaseFirestore.getInstance()
                     .collection("users")
-                    .document(currentUser.uid)
+                    .document(user.id)
                     .update(mapOf("photoId" to photoId))
                     .addOnFailureListener {
                         Log.d(LOG_TAG, it.toString())
@@ -92,15 +94,10 @@ class SettingsActivity : AppCompatActivity() {
 
         if (!etDisplayName.text.isBlank()) {
             val newName = etDisplayName.text.toString()
-            val request = UserProfileChangeRequest.Builder().setDisplayName(newName).build()
-            FirebaseAuth.getInstance().currentUser!!.updateProfile(request)
             FirebaseFirestore.getInstance()
                 .collection("users")
-                .document(currentUser.uid)
-                .get()
-                .addOnSuccessListener {
-                    it.data!!.set("name", newName)
-                }
+                .document(user.id)
+                .update(mapOf("name" to newName))
         }
     }
 }

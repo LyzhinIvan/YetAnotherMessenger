@@ -32,7 +32,7 @@ class MessagesAdapter(val context : Context) : RecyclerView.Adapter<MessagesAdap
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val msg = messages[position]
         holder.tvMessageText.text = msg.text
-        val anchorSide = if (msg.userId == currentUserId) ConstraintSet.END else ConstraintSet.START
+        val anchorSide = if (msg.from == currentUserId) ConstraintSet.END else ConstraintSet.START
         val set = ConstraintSet()
         set.clone(holder.itemView.rootLayout)
         set.clear(holder.tvMessageText.id, ConstraintSet.START)
