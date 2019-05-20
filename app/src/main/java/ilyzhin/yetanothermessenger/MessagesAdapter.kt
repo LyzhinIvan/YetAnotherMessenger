@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import ilyzhin.yetanothermessenger.helpers.FirebaseHelper
 import ilyzhin.yetanothermessenger.models.Message
@@ -70,6 +68,6 @@ class MessagesAdapter(val context : Context) : RecyclerView.Adapter<RecyclerView
 
     inner class OtherMessageViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val tvMessageText: TextView = view.tvMessageText
-        val ivAvatar : ImageView = view.ivAvatar
+        val ivAvatar : ImageView = view.ivPhoto
     }
 }

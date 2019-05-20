@@ -1,6 +1,7 @@
 package ilyzhin.yetanothermessenger
 
 import Constants.LOG_TAG
+import Constants.RC_SELECT_IMAGE
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,7 +11,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import ilyzhin.yetanothermessenger.glide.GlideApp
@@ -20,10 +20,6 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
-
-    companion object {
-        private const val RC_SELECT_IMAGE = 3
-    }
 
     private lateinit var user : User
 
@@ -43,10 +39,10 @@ class SettingsActivity : AppCompatActivity() {
                 val ref = FirebaseStorage.getInstance()
                     .getReference("avatars/${user.photoId}")
 
-                GlideApp.with(this).load(ref).placeholder(R.drawable.default_avatar).into(ivAvatar)
+                GlideApp.with(this).load(ref).placeholder(R.drawable.default_avatar).into(ivPhoto)
             }
 
-        ivAvatar.setOnClickListener {
+        ivPhoto.setOnClickListener {
             val intent = Intent().apply {
                 type = "image/*"
                 action = Intent.ACTION_GET_CONTENT
@@ -65,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
                 val baos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
                 val bytes = baos.toByteArray()
-                GlideApp.with(this).load(bytes).into(ivAvatar)
+                GlideApp.with(this).load(bytes).into(ivPhoto)
                 val photoId = UUID.randomUUID().toString()
                 val ref = FirebaseStorage
                     .getInstance()

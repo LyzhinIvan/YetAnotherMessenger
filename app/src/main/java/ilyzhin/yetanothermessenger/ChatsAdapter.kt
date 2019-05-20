@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import ilyzhin.yetanothermessenger.models.Chat
 import kotlinx.android.synthetic.main.chat_list_item.view.*
-import java.util.*
 
 
 class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
@@ -49,6 +51,11 @@ class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.Ch
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
         holder.tvChatName.text = chat.title
+        chat.photoId.let {
+            val ref = FirebaseStorage.getInstance().getReference("chat_avatars/$it")
+            Glide.with(context).load(ref).placeholder(R.drawable.default_chat_icon).into(holder.ivPhoto)
+        }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context, MessagesActivity::class.java)
             intent.putExtra(Constants.CHAT_ID, chat.id)
@@ -59,5 +66,6 @@ class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.Ch
 
     inner class ChatViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val tvChatName: TextView = view.tvChatName
+        val ivPhoto: ImageView = view.ivPhoto
     }
 }

@@ -1,5 +1,6 @@
 package ilyzhin.yetanothermessenger
 
+import Constants.RC_SIGN_IN
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -38,9 +39,5 @@ class SignInActivity : AppCompatActivity() {
                 finish()
             }
         }
-    }
-
-    companion object {
-        private const val RC_SIGN_IN = 1
     }
 }

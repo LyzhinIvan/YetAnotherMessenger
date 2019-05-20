@@ -35,8 +35,8 @@ object FirebaseHelper {
             }
     }
 
-    fun createChat(title : String) : Task<String> {
-        val chat = Chat(title, mutableListOf(currentUser.uid))
+    fun createChat(title : String, photoId: String?) : Task<String> {
+        val chat = Chat(title, photoId, mutableListOf(currentUser.uid))
         val chatRef = FirebaseFirestore.getInstance().collection("chats").document()
         AlgoliaHelper.addChatToIndex(chat.withId(chatRef.id))
         return chatRef.set(chat)
