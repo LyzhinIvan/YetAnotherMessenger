@@ -4,12 +4,14 @@ import Constants
 import Constants.LOG_TAG
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import ilyzhin.yetanothermessenger.helpers.FirebaseHelper
 import ilyzhin.yetanothermessenger.models.Message
 import kotlinx.android.synthetic.main.activity_messages.*
 
@@ -26,6 +28,19 @@ class MessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_messages)
 
         chatId = intent.getStringExtra(Constants.CHAT_ID)
+
+        FirebaseHelper.isCurrentUserInChat(chatId) {
+            if (it) {
+                btnJoinChat.visibility = View.INVISIBLE
+                btnSendMessage.visibility = View.VISIBLE
+                etMessageInput.visibility = View.VISIBLE
+            } else {
+                btnJoinChat.visibility = View.VISIBLE
+                btnSendMessage.visibility = View.INVISIBLE
+                etMessageInput.visibility = View.INVISIBLE
+            }
+        }
+
         messagesRef = FirebaseFirestore.getInstance().collection("chats").document(chatId).collection("messages")
         initRecycler()
         loadMessages()
@@ -38,6 +53,13 @@ class MessagesActivity : AppCompatActivity() {
                 )
                 msgText.clear()
             }
+        }
+
+        btnJoinChat.setOnClickListener {
+            btnJoinChat.visibility = View.INVISIBLE
+            btnSendMessage.visibility = View.VISIBLE
+            etMessageInput.visibility = View.VISIBLE
+            FirebaseHelper.joinChat(chatId, currentUserId)
         }
     }
 

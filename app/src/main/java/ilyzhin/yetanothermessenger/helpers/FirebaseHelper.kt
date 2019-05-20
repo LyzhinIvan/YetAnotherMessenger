@@ -49,4 +49,28 @@ object FirebaseHelper {
                 chatRef.id
             }
     }
+
+    fun joinChat(chatId: String, userId: String) {
+        val chatRef = FirebaseFirestore.getInstance().collection("chats").document(chatId)
+        chatRef.get()
+            .addOnSuccessListener {
+                val chat = it.toObject(Chat::class.java)!!
+                chat.users.add(userId)
+                chatRef.set(chat)
+            }
+        userRef.get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)!!
+                user.chats.add(chatId)
+                userRef.set(user)
+            }
+    }
+
+    fun isCurrentUserInChat(chatId: String, callback: (Boolean) -> Any) {
+        userRef.get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)!!
+                callback(chatId in user.chats)
+            }
+    }
 }
