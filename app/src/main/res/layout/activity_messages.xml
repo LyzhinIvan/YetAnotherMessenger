@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MessagesActivity">
+        tools:context=".MessagesActivity" android:background="@color/messagesBackgroundColor">
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMessages"
@@ -14,7 +15,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/etMessageInput" android:layout_marginBottom="8dp"/>
+            app:layout_constraintBottom_toTopOf="@id/divider" android:layout_marginBottom="8dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/etMessageInput" android:layout_marginBottom="4dp"
+    />
 
     <EditText
             android:id="@+id/etMessageInput"

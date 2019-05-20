@@ -31,6 +31,7 @@ class SignInActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 FirebaseHelper.onUserSignIn {
                     startActivity<ChatsActivity>()
+                    finish()
                 }
             } else {
                 Toast.makeText(this, "Auth failed", Toast.LENGTH_SHORT).show()
