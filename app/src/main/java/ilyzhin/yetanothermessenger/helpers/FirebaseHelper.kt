@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import ilyzhin.yetanothermessenger.YamMessagingService
@@ -73,4 +74,17 @@ object FirebaseHelper {
                 callback(chatId in user.chats)
             }
     }
+
+    fun getChat(chatId: String, callback: (Chat) -> Unit) {
+        FirebaseFirestore.getInstance().collection("chats").document(chatId).get()
+            .addOnSuccessListener {
+                val chat = it.toObject(Chat::class.java)!!
+                callback(chat)
+            }
+    }
+
+    fun getUser(userId: String): Task<DocumentSnapshot> {
+        return FirebaseFirestore.getInstance().collection("users").document(userId).get()
+    }
+
 }

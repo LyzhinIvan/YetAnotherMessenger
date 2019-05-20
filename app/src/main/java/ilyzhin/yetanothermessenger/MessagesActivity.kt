@@ -28,6 +28,8 @@ class MessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_messages)
 
         chatId = intent.getStringExtra(Constants.CHAT_ID)
+        supportActionBar?.title = intent.getStringExtra(Constants.CHAT_TITLE)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         FirebaseHelper.isCurrentUserInChat(chatId) {
             if (it) {
@@ -61,6 +63,11 @@ class MessagesActivity : AppCompatActivity() {
             etMessageInput.visibility = View.VISIBLE
             FirebaseHelper.joinChat(chatId, currentUserId)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initRecycler() {

@@ -52,6 +52,7 @@ class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.Ch
         holder.itemView.setOnClickListener {
             val intent = Intent(context, MessagesActivity::class.java)
             intent.putExtra(Constants.CHAT_ID, chat.id)
+            intent.putExtra(Constants.CHAT_TITLE, chat.title)
             startActivity(context, intent, Bundle.EMPTY)
         }
     }
