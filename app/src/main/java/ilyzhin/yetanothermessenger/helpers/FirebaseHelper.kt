@@ -1,12 +1,16 @@
 package ilyzhin.yetanothermessenger.helpers
 
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import ilyzhin.yetanothermessenger.YamMessagingService
+import ilyzhin.yetanothermessenger.models.Chat
 import ilyzhin.yetanothermessenger.models.User
+import org.jetbrains.anko.doAsync
 import javax.security.auth.callback.Callback
 
 object FirebaseHelper {
@@ -28,6 +32,21 @@ object FirebaseHelper {
                     }
                 callback()
             }
+    }
 
+    fun createChat(title : String) : Task<String> {
+        val chat = Chat(title, mutableListOf(currentUser.uid))
+        val chatRef = FirebaseFirestore.getInstance().collection("chats").document()
+        AlgoliaHelper.addChatToIndex(chat.withId(chatRef.id))
+        return chatRef.set(chat)
+            .continueWith {
+                userRef.get().addOnSuccessListener {
+                    val user = it.toObject(User::class.java)!!
+                    user.chats.add(chatRef.id)
+                    userRef.set(user)
+                }
+            }.continueWith {
+                chatRef.id
+            }
     }
 }

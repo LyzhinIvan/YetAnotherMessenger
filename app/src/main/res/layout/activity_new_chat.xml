@@ -4,20 +4,20 @@
               android:layout_height="match_parent">
 
     <EditText
-            android:id="@+id/edit_word"
+            android:id="@+id/etChatTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:hint="@string/hint_chat_title"
             android:inputType="textAutoComplete"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
     <Button
-            android:id="@+id/button_save"
+            android:id="@+id/btnCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:text="@string/button_create_chat"
-            android:textColor="@color/buttonLabel" />
+            android:textColor="@color/buttonLabel"/>
 
 </LinearLayout>

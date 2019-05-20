@@ -11,4 +11,13 @@ abstract class Model(@Exclude var id : String = "") {
         this.id = id
         return this as T
     }
+
+    override fun equals(other: Any?): Boolean {
+        other.let {
+            if (other is Model && other.id.isNotEmpty() && this.id.isNotEmpty() && other.id == this.id) {
+                return true
+            }
+        }
+        return super.equals(other)
+    }
 }

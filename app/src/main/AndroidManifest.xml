@@ -10,13 +10,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".NewChatActivity">
+        </activity>
         <activity
                 android:name=".SettingsActivity"
                 android:label="Settings">
         </activity>
         <activity android:name=".MessagesActivity">
         </activity>
-        <activity android:name=".ChatsActivity">
+        <activity android:name=".ChatsActivity" android:launchMode="singleTop">
         </activity>
         <activity android:name=".SignInActivity">
         </activity>
@@ -27,10 +29,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name="YamMessagingService" android:exported="false">
+
+        <service
+                android:name=".YamMessagingService"
+                android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
     </application>

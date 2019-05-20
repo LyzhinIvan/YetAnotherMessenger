@@ -11,14 +11,31 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ilyzhin.yetanothermessenger.models.Chat
 import kotlinx.android.synthetic.main.chat_list_item.view.*
+import java.util.*
 
 
 class ChatsAdapter(val context : Context) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
     private val inflater = LayoutInflater.from(context)
+    private var allChats : List<Chat> = arrayListOf()
     private var chats : List<Chat> = arrayListOf()
+    private var filter : String? = null
 
     fun setChats(chats : List<Chat>) {
-        this.chats = chats
+        this.allChats = chats
+        applyFilter(filter)
+    }
+
+    fun getChats() : List<Chat> {
+        return allChats
+    }
+
+    fun applyFilter(filter: String?) {
+        this.filter = filter
+        chats = if (filter.isNullOrBlank()) {
+            allChats
+        } else {
+            allChats.filter { chat -> chat.title.toLowerCase().contains(filter) }
+        }
         notifyDataSetChanged()
     }
 
